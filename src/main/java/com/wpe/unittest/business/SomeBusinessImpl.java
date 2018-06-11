@@ -2,6 +2,9 @@ package com.wpe.unittest.business;
 
 import com.wpe.unittest.data.SomeDataService;
 
+import java.util.Arrays;
+import java.util.OptionalInt;
+
 public class SomeBusinessImpl {
     private SomeDataService someDataService;
 
@@ -12,6 +15,10 @@ public class SomeBusinessImpl {
         }
         return sum;
     }
+    public int calculateSumFunctional(int[] data){
+        return Arrays.stream(data).reduce(Integer::sum).orElse(0);
+    }
+
     public int calculateSumUsingService(){
         int sum=0;
         int[] data=someDataService.retrieveAllData();

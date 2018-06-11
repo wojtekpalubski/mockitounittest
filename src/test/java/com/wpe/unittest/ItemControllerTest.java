@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,12 +39,13 @@ public class ItemControllerTest {
         try {
             MvcResult result = mockmvc.perform(request)
                     .andExpect(status().isOk())
-                    .andExpect(content().string("{\"quantity\":100,\"id\":1,\"name\":\"Ball\",\"price\":10}"))
+                    .andExpect(content().string("{\"id\":1,\"quantity\":100,\"name\":\"Ball\",\"price\":10,\"value\":0}"))
                     .andReturn();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Test
     public void helloItem_jsontest() {
         RequestBuilder request = MockMvcRequestBuilders
@@ -57,6 +60,7 @@ public class ItemControllerTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void helloItem_json2test() {
         RequestBuilder request = MockMvcRequestBuilders
@@ -77,7 +81,7 @@ public class ItemControllerTest {
     @Test
     public void businessItem_test() {
 
-        when(businessService.retrieveItem()).thenReturn(new Item(1, "Ball", 10, 100));
+        when(businessService.retrieveHardcodedItem()).thenReturn(new Item(1, "Ball", 10, 100));
 
         RequestBuilder request = MockMvcRequestBuilders
                 .get("/business-item")
@@ -86,6 +90,29 @@ public class ItemControllerTest {
             MvcResult result = mockmvc.perform(request)
                     .andExpect(status().isOk())
                     .andExpect(content().json("{\"quantity\"  :100,\"id\":1,\"name\":\"Ball\"}"))
+                    .andReturn();
+
+            //JSONAssert.assertEquals(expected, actual, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void businessAllItems_test() {
+
+        when(businessService.retrieveAllItems()).thenReturn(Arrays.asList(
+                new Item(1, "Ball", 10, 100),
+                new Item(2, "Ball2", 102, 1002),
+                new Item(3, "Ball3", 103, 1003)));
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/all-item")
+                .accept(MediaType.APPLICATION_JSON);
+        try {
+            MvcResult result = mockmvc.perform(request)
+                    .andExpect(status().isOk())
+                    .andExpect(content().json("[{\"quantity\"  :100,\"id\":1,\"name\":\"Ball\"},{quantity  :1002,id:2,name:Ball2},{}]"))
                     .andReturn();
 
             //JSONAssert.assertEquals(expected, actual, false);

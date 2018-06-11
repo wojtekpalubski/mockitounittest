@@ -1,10 +1,39 @@
 package com.wpe.unittest.model;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Objects;
 
+/**
+ * http://localhost:8080/h2-console
+ * org.h2.Driver
+ * jdbc:h2:mem:testdb
+ * user sa
+ * haslo puste
+ */
+
+@Entity
 public class Item {
-    private final int quantity;
+    @Id
+    private int id;
+    private int quantity;
+    private String name;
+    private int price;
+
+    @Transient
+    private int value;
+
+    public Item() {
+    }
+
+    public Item(int id, String name, int price, int quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
     public int getQuantity() {
         return quantity;
@@ -21,9 +50,6 @@ public class Item {
     public int getPrice() {
         return price;
     }
-
-    private final int id;
-    private final String name;
 
     @Override
     public boolean equals(Object o) {
@@ -42,9 +68,6 @@ public class Item {
         return Objects.hash(getQuantity(), getId(), getName(), getPrice());
     }
 
-    private final int price;
-
-
     @Override
     public String toString() {
         return "Item{" +
@@ -55,10 +78,11 @@ public class Item {
                 '}';
     }
 
-    public Item(int id, String name, int price, int quantity) {
-        this.id=id;
-        this.name=name;
-        this.price=price;
-        this.quantity=quantity;
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

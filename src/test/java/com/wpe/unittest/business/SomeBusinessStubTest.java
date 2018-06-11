@@ -22,6 +22,13 @@ public class SomeBusinessStubTest {
         int exp=0;
         assertEquals(exp,calculateSum);
     }
+    @Test
+    public void calculateSumUsingServiceEmptyFunctional_test(){
+        SomeBusinessImpl b=new SomeBusinessImpl();
+        int calculateSum = b.calculateSumFunctional(new int[]{});
+        int exp=0;
+        assertEquals(exp,calculateSum);
+    }
 }
 
 class SomeDataServiceStub implements com.wpe.unittest.data.SomeDataService{

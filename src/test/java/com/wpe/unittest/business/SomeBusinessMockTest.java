@@ -29,10 +29,7 @@ public class SomeBusinessMockTest {
 
     @Test
     public void calculateSumUsingService_test() {
-
         when(dataServiceMock.retrieveAllData()).thenReturn(new int[]{1, 2, 3});
-
-
         assertEquals(6, b.calculateSumUsingService());
     }
 
